@@ -28,6 +28,21 @@
   const toTop = () => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); document.documentElement.style.scrollBehavior = ''; };
   toTop(); addEventListener('DOMContentLoaded', toTop); addEventListener('load', toTop);
   addEventListener('pageshow', e => { if (e.persisted) toTop(); });
+  // Next project: лента всегда едет; вниз — влево, вверх — вправо, при прокрутке ускоряется
+  addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.next__track');
+  if (!track) return;
+    let dir = 1, last = scrollY, boost = 0, x = 0;
+    addEventListener('scroll', () => { const d = scrollY - last; if (d) { dir = d > 0 ? 1 : -1; boost = Math.min(boost + Math.abs(d), 60); } last = scrollY; }, {passive: true});
+    const tick = () => {
+      const w = track.scrollWidth / 2;
+      x -= dir * (.35 + boost * .12); boost *= .92;
+      if (w) x = ((x % w) - w) % w;
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
 </script>
 <header class="site-head">
   <nav class="nav wrap" aria-label="Меню">
@@ -61,7 +76,7 @@
   </div>
   <a class="next" href="succub-moan-drop.html">
     <span class="next__label">Next project</span>
-    <span class="next__row"><b>SUCCUB Moan Drop</b><span class="next__thumbs"><img src="../img/thumb/0445.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0446.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0447.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0448.webp" alt="" width="450" height="600" decoding="async"></span><span class="next__arrow" aria-hidden="true">→</span></span>
+    <span class="next__row"><b>SUCCUB Moan Drop</b><span class="next__thumbs" aria-hidden="true"><span class="next__track"><img src="../img/thumb/0445.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0446.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0447.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0448.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0449.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0450.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0451.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0452.webp" alt="" width="459" height="600" decoding="async"><img src="../img/thumb/0445.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0446.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0447.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0448.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0445.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0446.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0447.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0448.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0449.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0450.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0451.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0452.webp" alt="" width="459" height="600" decoding="async"><img src="../img/thumb/0445.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0446.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0447.webp" alt="" width="450" height="600" decoding="async"><img src="../img/thumb/0448.webp" alt="" width="450" height="600" decoding="async"></span></span><span class="next__arrow" aria-hidden="true">→</span></span>
   </a>
 </main>
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Просмотр фото">
