@@ -20,8 +20,8 @@ img { display: block; max-width: 100%; height: auto; }
 /* навигация */
 .nav { display: flex; align-items: center; gap: 30px; font: 700 18px/1.2 var(--sans); padding: 24px 0; }
 .site-head { position: sticky; top: 0; z-index: 30; background: var(--bg); }
-.site-head .filters { display: none; padding: 0 0 18px; }
-.site-head.show-filters .filters { display: flex; }
+.site-head .filters { position: absolute; left: 0; right: 0; top: 100%; margin: 0 auto; padding: 0 0 18px; background: var(--bg); opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; }
+.site-head.show-filters .filters { opacity: 1; visibility: visible; }
 .nav a { transition: opacity .2s; }
 .nav a:hover { opacity: .5; }
 .nav .right { margin-left: auto; }
@@ -187,7 +187,8 @@ img { display: block; max-width: 100%; height: auto; }
   .hero__title p { font-size: 14px; }
   .hero__photo { position: static; order: 3; width: 100%; height: auto; aspect-ratio: 1; }
   .hero__moin { position: static; order: 4; width: 120px; align-self: flex-end; margin-top: 8px; }
-  .site-head .filters { justify-content: flex-start; gap: 10px 22px; padding: 0 0 12px; font-size: 16px; }
+  .site-head .filters { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; white-space: nowrap; gap: 18px; padding: 0 16px 12px; width: 100%; font-size: 16px; scrollbar-width: none; }
+  .site-head .filters::-webkit-scrollbar { display: none; }
   .grid { grid-template-columns: 1fr 1fr; column-gap: 16px; row-gap: 30px; padding: 20px 0 40px; }
   .card__img img, .card--s .card__img img, .card--m .card__img img { width: 100%; max-height: none; }
   .card__cap { font-size: 14px; margin-top: 14px; }
