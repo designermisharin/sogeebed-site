@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexander Varlakov — Александр Гуськов, фотограф</title>
+<meta name="description" content="Alexander Varlakov. Photography. Съёмка Александра Гуськова (SOGEEBED), fashion-фотограф в Москве.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="SOGEEBED">
+<meta property="og:title" content="Alexander Varlakov — Александр Гуськов, фотограф">
+<meta property="og:description" content="Alexander Varlakov. Photography. Съёмка Александра Гуськова (SOGEEBED), fashion-фотограф в Москве.">
+<meta property="og:image" content="img/og/alexander-varlakov.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="img/og/alexander-varlakov.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<script>
+  // проект всегда открывается с самого верха, даже если браузер помнит прокрутку
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toTop = () => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); document.documentElement.style.scrollBehavior = ''; };
+  toTop(); addEventListener('DOMContentLoaded', toTop); addEventListener('load', toTop);
+  addEventListener('pageshow', e => { if (e.persisted) toTop(); });
+</script>
+<header class="wrap"><nav class="nav" aria-label="Меню">
+  <a href="../index.html#work">Projects</a>
+  <a href="../index.html#contacts">Contacts</a>
+  <a class="right" href="../index.html">Sogeebed Photography</a>
+</nav></header>
+<main class="wrap">
+  <div class="proj-head">
+    <div>
+      <h1>Alexander Varlakov</h1>
+      <p class="proj-meta">Photography<br><a href="../index.html#brands">Brands</a></p>
+      
+    </div>
+    <a class="close" href="../index.html" aria-label="Закрыть и вернуться ко всем проектам">✕ close</a>
+  </div>
+  <div class="gallery">
+    <figure><img src="../img/full/0266.webp" alt="Alexander Varlakov — фото 1" width="1024" height="1280" decoding="async"></figure>
+    <figure><img src="../img/full/0267.webp" alt="Alexander Varlakov — фото 2" width="1024" height="1280" decoding="async"></figure>
+    <figure><img src="../img/full/0268.webp" alt="Alexander Varlakov — фото 3" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure><img src="../img/full/0269.webp" alt="Alexander Varlakov — фото 4" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure><img src="../img/full/0270.webp" alt="Alexander Varlakov — фото 5" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure><img src="../img/full/0271.webp" alt="Alexander Varlakov — фото 6" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure><img src="../img/full/0272.webp" alt="Alexander Varlakov — фото 7" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure><img src="../img/full/0273.webp" alt="Alexander Varlakov — фото 8" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+    <figure class="solo"><img src="../img/full/0274.webp" alt="Alexander Varlakov — фото 9" width="1024" height="1280" loading="lazy" decoding="async"></figure>
+  </div>
+  <a class="next" href="all-time-x-tatyana-stolyar.html"><span>Next project<b>All Time x Татьяна Столяр</b></span><span>→</span></a>
+</main>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Просмотр фото">
+  <img class="lb__img" alt="">
+  <button type="button" class="lb__btn lb__prev" aria-label="Предыдущее фото">←</button>
+  <button type="button" class="lb__btn lb__next" aria-label="Следующее фото">→</button>
+  <button type="button" class="lb__close" aria-label="Закрыть">✕ close</button>
+  <p class="lb__count"></p>
+</div>
+<script>
+(() => {
+  const imgs = [...document.querySelectorAll('.gallery img')];
+  const lb = document.getElementById('lb'), view = lb.querySelector('.lb__img'), count = lb.querySelector('.lb__count');
+  let i = 0, x0 = null, opener = null;
+  const show = k => { i = (k + imgs.length) % imgs.length; view.src = imgs[i].currentSrc || imgs[i].src; view.alt = imgs[i].alt; count.textContent = (i + 1) + ' / ' + imgs.length; };
+  const open = k => { opener = document.activeElement; show(k); lb.hidden = false; document.body.style.overflow = 'hidden'; lb.querySelector('.lb__close').focus(); };
+  const close = () => { lb.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus(); };
+  imgs.forEach((im, k) => { im.tabIndex = 0; im.addEventListener('click', () => open(k)); im.addEventListener('keydown', ev => { if (ev.key === 'Enter') open(k); }); });
+  lb.querySelector('.lb__prev').onclick = () => show(i - 1);
+  lb.querySelector('.lb__next').onclick = () => show(i + 1);
+  lb.querySelector('.lb__close').onclick = close;
+  lb.addEventListener('click', ev => { if (ev.target === lb) close(); });
+  view.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', ev => { if (lb.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowRight') show(i + 1); if (ev.key === 'ArrowLeft') show(i - 1); });
+  lb.addEventListener('touchstart', ev => { x0 = ev.touches[0].clientX; }, {passive: true});
+  lb.addEventListener('touchend', ev => { if (x0 === null) return; const dx = ev.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+})();
+</script>
+<footer class="foot wrap" id="contacts">
+  <div>
+    <h2>Contacts</h2>
+    <ul>
+      <li><a href="https://t.me/+79655404650" target="_blank" rel="noopener">telegram</a></li>
+      <li><a href="https://www.instagram.com/sogeebed/" target="_blank" rel="noopener">instagram*</a></li>
+      <li><a href="mailto:sogeebed@gmail.com">sogeebed@gmail.com</a></li>
+    </ul>
+  </div>
+  <div class="more"><p class="more__label">More work ↘</p><div class="more__row"><a class="more__card" href="arligent.html"><span class="more__img"><img src="../img/thumb/0277.webp" alt="Arligent" width="600" height="400" loading="lazy" decoding="async"></span><span class="more__cap">Arligent</span></a><a class="more__card" href="dorogo-vintage-october-25-campaign.html"><span class="more__img"><img src="../img/thumb/0288.webp" alt="DOROGO vintage October&#x27;25 Campaign" width="600" height="400" loading="lazy" decoding="async"></span><span class="more__cap">DOROGO vintage October&#x27;25 Campaign</span></a><a class="more__card" href="dorogo-vintage-september-25-campaign.html"><span class="more__img"><img src="../img/thumb/0295.webp" alt="DOROGO vintage September&#x27;25 Campaign" width="480" height="600" loading="lazy" decoding="async"></span><span class="more__cap">DOROGO vintage September&#x27;25 Campaign</span></a></div></div>
+  <p class="foot__copy"><span class="foot__note">*Деятельность компании Meta Platforms Inc., а также её продуктов Instagram и Facebook запрещена на территории Российской Федерации.</span>© 2026</p>
+  <div class="foot__brand"><b>Sogeebed<br>Photography</b><span>Александр Гуськов</span></div>
+</footer>
+</body>
+</html>
