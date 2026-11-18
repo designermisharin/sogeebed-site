@@ -27,7 +27,6 @@
     <a href="#work">Projects</a>
     <a href="#contacts">Contacts</a>
     <a href="terms.html">Terms<span class="lg"> of Cooperation</span></a>
-    <a href="https://t.me/sogeebedexh" target="_blank" rel="noopener"><span class="lg">Telegram</span><span class="sm">TG</span> channel</a>
     <a class="right" href="index.html" aria-current="page">Sogeebed<span class="lg"> Photography</span></a>
   </nav>
   <div class="wrap filters" role="group" aria-label="Фильтр проектов"><button type="button" data-filter="brands" aria-pressed="false">Brands /</button><button type="button" data-filter="arts" aria-pressed="false">Arts /</button><button type="button" data-filter="people" aria-pressed="false">People /</button><button type="button" data-filter="items" aria-pressed="false">Items /</button><button type="button" data-filter="beauty" aria-pressed="false">Beauty /</button><button type="button" data-filter="tests" aria-pressed="false">Model tests</button></div>
@@ -324,7 +323,7 @@
   function apply(key, animate) {
     if (!keys.includes(key)) key = 'all';
     btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === key)));
-    const show = c => key === 'all' || c.dataset.cats.split(' ').includes(key);
+    const show = c => key === 'all' ? !c.dataset.cats.split(' ').includes('tests') : c.dataset.cats.split(' ').includes(key);
     if (!animate) { cards.forEach(c => c.hidden = !show(c)); return; }
     cards.forEach(c => c.classList.add('is-out'));
     setTimeout(() => {

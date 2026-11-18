@@ -29,7 +29,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* hero: первый экран занимает всё окно, фильтры начинаются ниже */
 .first { min-height: calc(100vh - 60px); min-height: calc(100svh - 60px); box-sizing: border-box; }
-.hero { position: relative; height: 560px; margin-top: -8px; }
+.hero { position: relative; height: 560px; margin-top: 24px; }
 .hero__logo { position: absolute; left: 0; top: 0; width: 560px; z-index: 2; pointer-events: none; }
 .hero__photo { position: absolute; right: 0; top: 0; width: 560px; height: 560px; object-fit: cover; }
 .hero__title { position: absolute; left: 0; top: 470px; z-index: 3; }
@@ -96,7 +96,8 @@ img { display: block; max-width: 100%; height: auto; }
 .next__row { display: flex; align-items: center; gap: 24px; margin-top: 8px; }
 .next b { color: var(--ink); font: 700 36px/1.1 var(--sans); text-transform: uppercase; }
 .next__thumbs { display: flex; gap: 8px; }
-.next__thumbs img { height: 64px; width: auto; transition: opacity .3s; }
+.next__thumbs { flex: none; }
+.next__thumbs img { height: 64px; width: auto; max-width: none; flex: none; transition: opacity .3s; }
 .next__arrow { margin-left: auto; color: var(--ink); font-size: 28px; line-height: 1; }
 .next:hover b, .next:hover .next__thumbs img { opacity: .6; }
 
