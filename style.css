@@ -407,3 +407,9 @@ html.is-leaving body { opacity: 0; transition: opacity .26s ease; }
   body, .card.is-in, .lb:not([hidden]) { animation: none; }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
+/* мобильный первый экран: фото сразу под текстом, дальше без пустоты */
+@media (max-width: 640px) {
+  .first { min-height: 0 !important; justify-content: flex-start; padding-bottom: 16px; }
+  .first .hero { flex: none; }
+  .hero__photo { margin-top: 0; }
+}
