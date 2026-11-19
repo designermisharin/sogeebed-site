@@ -19,8 +19,8 @@
 <link rel="canonical" href="https://sogeebed.com/projects/model-test-3.html">
 <link rel="icon" href="../favicon.ico">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=0c2a8948">
-<script>document.documentElement.classList.add('js');</script>
+<link rel="stylesheet" href="../style.css?v=2ee1551b">
+<script>document.documentElement.classList.add('js');if(window.CSSViewTransitionRule)document.documentElement.classList.add('vt');</script>
 </head>
 <body>
 <script>
@@ -113,18 +113,41 @@
   const imgs = [...document.querySelectorAll('.gallery img')];
   const lb = document.getElementById('lb'), view = lb.querySelector('.lb__img'), count = lb.querySelector('.lb__count');
   let i = 0, x0 = null, opener = null;
-  const show = k => { i = (k + imgs.length) % imgs.length; view.src = imgs[i].currentSrc || imgs[i].src; view.alt = imgs[i].alt; count.textContent = (i + 1) + ' / ' + imgs.length; };
-  const open = k => { opener = document.activeElement; show(k); lb.hidden = false; document.body.style.overflow = 'hidden'; lb.querySelector('.lb__close').focus(); };
-  const close = () => { lb.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus(); };
+  const ease = 'cubic-bezier(.2,.7,.2,1)';
+  let busy = false;
+  const setImg = k => { i = (k + imgs.length) % imgs.length; view.src = imgs[i].currentSrc || imgs[i].src; view.alt = imgs[i].alt; count.textContent = (i + 1) + ' / ' + imgs.length; };
+  // смена фото: текущее уезжает и гаснет, новое въезжает с другой стороны
+  const show = (k, dir = 1, fromX = 0) => {
+    if (busy) return; busy = true;
+    const w = Math.min(innerWidth, 900) * .25;
+    view.animate([{transform: `translateX(${fromX}px)`, opacity: 1}, {transform: `translateX(${-dir * w}px)`, opacity: 0}], {duration: 220, easing: 'ease-in', fill: 'forwards'}).onfinish = () => {
+      setImg(k);
+      const go = () => { view.animate([{transform: `translateX(${dir * w}px)`, opacity: 0}, {transform: 'none', opacity: 1}], {duration: 420, easing: ease, fill: 'forwards'}).onfinish = () => { busy = false; }; };
+      if (view.complete) go(); else { view.onload = () => { view.onload = null; go(); }; setTimeout(() => { if (busy && view.onload) { view.onload = null; go(); } }, 600); }
+    };
+  };
+  const open = k => { opener = document.activeElement; setImg(k); lb.hidden = false; document.body.style.overflow = 'hidden';
+    lb.animate([{opacity: 0}, {opacity: 1}], {duration: 350, easing: 'ease'});
+    view.animate([{transform: 'scale(.96)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 450, easing: ease});
+    lb.querySelector('.lb__close').focus({preventScroll: true}); };
+  const close = () => { lb.animate([{opacity: 1}, {opacity: 0}], {duration: 280, easing: 'ease'}).onfinish = () => { lb.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus({preventScroll: true}); }; };
   imgs.forEach((im, k) => { im.tabIndex = 0; im.addEventListener('click', () => open(k)); im.addEventListener('keydown', ev => { if (ev.key === 'Enter') open(k); }); });
-  lb.querySelector('.lb__prev').onclick = () => show(i - 1);
-  lb.querySelector('.lb__next').onclick = () => show(i + 1);
+  lb.querySelector('.lb__prev').onclick = () => show(i - 1, -1);
+  lb.querySelector('.lb__next').onclick = () => show(i + 1, 1);
   lb.querySelector('.lb__close').onclick = close;
   lb.addEventListener('click', ev => { if (ev.target === lb) close(); });
-  view.addEventListener('click', () => show(i + 1));
-  document.addEventListener('keydown', ev => { if (lb.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowRight') show(i + 1); if (ev.key === 'ArrowLeft') show(i - 1); });
-  lb.addEventListener('touchstart', ev => { x0 = ev.touches[0].clientX; }, {passive: true});
-  lb.addEventListener('touchend', ev => { if (x0 === null) return; const dx = ev.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  view.addEventListener('click', () => show(i + 1, 1));
+  document.addEventListener('keydown', ev => { if (lb.hidden) return; if (ev.key === 'Escape') close(); if (ev.key === 'ArrowRight') show(i + 1, 1); if (ev.key === 'ArrowLeft') show(i - 1, -1); });
+  // свайп: фото идёт за пальцем
+  let dx = 0;
+  lb.addEventListener('touchstart', ev => { if (busy) return; x0 = ev.touches[0].clientX; dx = 0; }, {passive: true});
+  lb.addEventListener('touchmove', ev => { if (x0 === null) return; dx = ev.touches[0].clientX - x0; view.style.transform = `translateX(${dx}px)`; view.style.opacity = String(1 - Math.min(Math.abs(dx) / 600, .4)); }, {passive: true});
+  lb.addEventListener('touchend', () => {
+    if (x0 === null) return; x0 = null;
+    view.style.transform = ''; view.style.opacity = '';
+    if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1, dx);
+    else if (dx) view.animate([{transform: `translateX(${dx}px)`}, {transform: 'none'}], {duration: 300, easing: ease});
+  });
 })();
 </script>
 <footer class="foot wrap" id="contacts">
@@ -159,6 +182,13 @@
     e.preventDefault(); sgLeave(() => { location.href = a.href; });
   });
   addEventListener('pageshow', () => root.classList.remove('is-leaving'));
+  // блоки мягко проявляются при прокрутке
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const sel = '.banner, .card, .gallery figure, .brands__title, .marquee, .foot > *, .next, .proj-head, .terms__sec, .terms h1, .terms__lead';
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target); } }), {rootMargin: '0px 0px -8% 0px'});
+    document.querySelectorAll(sel).forEach(el => { el.classList.add('rv'); io.observe(el); });
+    setTimeout(() => document.querySelectorAll('.rv:not(.rv-in)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('rv-in'); }), 1500);
+  }
 })();
 </script>
 </body>
