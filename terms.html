@@ -19,7 +19,8 @@
 <link rel="canonical" href="https://sogeebed.com/terms.html">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=934f5674">
+<link rel="stylesheet" href="style.css?v=786d8300">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <header class="site-head">
@@ -83,5 +84,25 @@ document.querySelectorAll('.price details').forEach(d => {
   <p class="foot__copy"><span class="foot__note">*Деятельность компании Meta Platforms Inc., а также ее продуктов Instagram и Facebook запрещена на территории Российской Федерации.</span>© 2026</p>
   <div class="foot__brand"><b>Sogeebed<br>Photography</b><span>Александр Гуськов</span></div>
 </footer>
+<script>
+(() => {
+  const root = document.documentElement;
+  // фото проявляются мягко, по мере загрузки
+  const mark = img => img.classList.add('is-loaded');
+  document.querySelectorAll('img').forEach(img => { if (img.complete && img.naturalWidth) mark(img); else { img.addEventListener('load', () => mark(img), {once: true}); img.addEventListener('error', () => mark(img), {once: true}); } });
+  setTimeout(() => document.querySelectorAll('img:not(.is-loaded)').forEach(mark), 4000);
+  // плавный уход со страницы (там, где браузер не умеет переходы сам)
+  const native = window.CSSViewTransitionRule !== undefined;
+  window.sgLeave = go => { if (native || matchMedia('(prefers-reduced-motion: reduce)').matches) return go(); root.classList.add('is-leaving'); setTimeout(go, 260); };
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]');
+    if (!a || e.defaultPrevented || a.target || a.hasAttribute('download') || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || (u.pathname === location.pathname && u.hash)) return;
+    e.preventDefault(); sgLeave(() => { location.href = a.href; });
+  });
+  addEventListener('pageshow', () => root.classList.remove('is-leaving'));
+})();
+</script>
 </body>
 </html>

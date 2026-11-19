@@ -369,3 +369,41 @@ img { display: block; max-width: 100%; height: auto; }
 
 
 
+
+/* ===== плавность ===== */
+:root { --ease: cubic-bezier(.2, .7, .2, 1); }
+html { scroll-behavior: smooth; }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: vt-out .28s ease both; }
+::view-transition-new(root) { animation: vt-in .45s var(--ease) both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+/* фолбэк для браузеров без переходов: страница проявляется и гаснет */
+@supports not (view-transition-name: none) { body { animation: page-in .5s var(--ease) both; } }
+@keyframes page-in { from { opacity: 0; } }
+html.is-leaving body { opacity: 0; transition: opacity .26s ease; }
+/* фото проявляются по загрузке */
+.js .card__img img, .js .gallery img, .js .more__img img, .js .hero__photo, .js .banner img, .js .next__track img { opacity: 0; transition: opacity .7s var(--ease); }
+.js img.is-loaded { opacity: 1 !important; }
+.card:hover .card__img img.is-loaded { opacity: .85 !important; }
+/* фильтры: мягкое исчезание и появление карточек по очереди */
+.grid.is-js { transition: opacity .32s ease; }
+.card.is-in { animation: card-in .7s var(--ease) both; }
+@keyframes card-in { from { opacity: 0; transform: translateY(18px); } }
+.filters button { transition: opacity .25s, font-weight .2s; }
+/* мобильное меню фильтров раскрывается плавно */
+@media (max-width: 640px) {
+  .filters-bar .filters { display: flex; visibility: hidden; opacity: 0; transform: translateY(-6px); transition: opacity .28s var(--ease), transform .28s var(--ease), visibility 0s .28s; }
+  .filters-bar.is-open .filters { visibility: visible; opacity: 1; transform: none; transition: opacity .28s var(--ease), transform .28s var(--ease), visibility 0s; }
+  .filters__arrow { display: inline-block; transition: transform .28s var(--ease); }
+  .filters-bar.is-open .filters__arrow { transform: rotate(180deg); }
+  .work .show-more { transition: opacity .4s ease; }
+}
+/* лайтбокс открывается плавно */
+.lb:not([hidden]) { animation: page-in .35s var(--ease) both; }
+.lb__img { transition: opacity .3s ease; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body, .card.is-in, .lb:not([hidden]) { animation: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
