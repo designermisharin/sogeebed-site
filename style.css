@@ -338,3 +338,10 @@ img { display: block; max-width: 100%; height: auto; }
   .work.is-collapsed .show-more::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.85) 55%, #fff); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); -webkit-mask-image: linear-gradient(transparent, #000 45%); mask-image: linear-gradient(transparent, #000 45%); }
   .show-more button { all: unset; position: relative; cursor: pointer; font: 400 16px/1.2 var(--arial); padding: 10px 0; border-bottom: 1px solid var(--ink); }
 }
+
+/* мобильный первый экран: заголовок сверху, фото прижато к низу экрана */
+@media (max-width: 640px) {
+  .first { display: flex; flex-direction: column; min-height: calc(100vh - 50px); min-height: calc(100svh - 50px); padding-bottom: 16px; box-sizing: border-box; }
+  .first .hero { flex: 1; }
+  .hero__photo { margin-top: auto; }
+}
