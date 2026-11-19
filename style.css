@@ -355,3 +355,6 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .price details summary i { white-space: nowrap; }
 .price .ex img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+/* активный фильтр — bold везде, включая мобильное меню */
+.filters-bar .filters button[aria-pressed="true"], .filters__current { font-weight: 700; }
+.filters-bar .filters button[aria-pressed="true"] .sep { font-weight: 400; }
