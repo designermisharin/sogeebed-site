@@ -49,6 +49,26 @@
     <div class="terms__notes"><p>AI-замена фона, образа и прочее не считается ретушью и оплачивается отдельно. Например, если в одном кадре нужно заменить сумку и фон, итог — 2 000 р за кадр.</p><p>Другие виды типографики обсуждаются индивидуально.</p></div>
   </section>
 </main>
+<script>
+// примеры ИИ раскрываются плавно
+document.querySelectorAll('.price details').forEach(d => {
+  const sum = d.querySelector('summary'), box = d.querySelector('.ex');
+  const ease = 'cubic-bezier(.2,.7,.2,1)';
+  sum.addEventListener('click', ev => {
+    ev.preventDefault();
+    if (d.dataset.busy) return; d.dataset.busy = 1;
+    const opening = !d.open;
+    if (opening) d.open = true;
+    const h = box.scrollHeight;
+    const a = box.animate(opening
+      ? [{height: '0px', opacity: 0}, {height: h + 'px', opacity: 1}]
+      : [{height: h + 'px', opacity: 1}, {height: '0px', opacity: 0}],
+      {duration: 450, easing: ease});
+    box.style.overflow = 'hidden';
+    a.onfinish = () => { if (!opening) d.open = false; box.style.overflow = ''; delete d.dataset.busy; };
+  });
+});
+</script>
 <footer class="foot wrap" id="contacts">
   <div>
     <h2>Contacts</h2>

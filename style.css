@@ -353,3 +353,5 @@ img { display: block; max-width: 100%; height: auto; }
   .first { justify-content: flex-start; min-height: calc(100vh - var(--headh, 50px)); min-height: calc(100svh - var(--headh, 50px)); padding-bottom: 16px; }
   .first .hero { flex: 1; }
 }
+.price details summary i { white-space: nowrap; }
+.price .ex img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }

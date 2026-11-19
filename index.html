@@ -353,7 +353,7 @@
   };
   work.querySelector('.show-more button').addEventListener('click', () => { expanded = true; collapse(); });
   function apply(key, animate) {
-    if (!keys.includes(key)) key = 'all';
+    if (!keys.includes(key)) key = 'brands';
     cur = key;
     const fb = btns.find(b => b.dataset.filter === key);
     tgl.querySelector('.filters__current').textContent = fb ? fb.firstChild.textContent : 'Filter';
@@ -369,7 +369,7 @@
     }, 250);
   }
   btns.forEach(b => b.addEventListener('click', () => {
-    const k = b.getAttribute('aria-pressed') === 'true' ? 'all' : b.dataset.filter;
+    const k = b.dataset.filter;  // всегда выбран один раздел
     history.replaceState(null, '', k === 'all' ? location.pathname : '#' + k);
     try { k === 'all' ? sessionStorage.removeItem('sg-filter') : sessionStorage.setItem('sg-filter', k); } catch (e) {}
     apply(k, true);
