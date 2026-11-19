@@ -226,7 +226,7 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* условия сотрудничества */
 .terms { max-width: 760px; padding: 40px 0 0; }
-.terms h1 { margin: 0 0 18px; font: 700 36px/1.1 var(--sans); text-transform: uppercase; }
+.terms h1 { margin: 0 0 6px; font: 700 36px/1.1 var(--sans); text-transform: uppercase; }
 .terms__lead { margin: 0 0 40px; font: 400 18px/1.5 var(--arial); color: var(--muted); }
 .terms__sec { padding: 22px 0; border-top: 1px solid var(--ink); }
 .terms__sec h2 { margin: 0 0 12px; font: 700 18px/1.2 var(--sans); text-transform: uppercase; }
@@ -241,7 +241,7 @@ img { display: block; max-width: 100%; height: auto; }
 .banner { position: relative; display: block; margin: 0 0 20px; }
 .banner img { width: 100%; height: min(100svh, 62vw); object-fit: cover; }
 .banner:hover img { opacity: .92; }
-.foot__price { justify-self: end; width: 360px; }
+.foot__price { justify-self: end; align-self: start; width: 300px; }
 .foot__price img { width: 100%; transition: opacity .2s; }
 .foot__price:hover img { opacity: .55; }
 .price { list-style: none; margin: 0; padding: 0; font: 400 18px/1.4 var(--arial); }
@@ -278,8 +278,8 @@ img { display: block; max-width: 100%; height: auto; }
 .price details summary::-webkit-details-marker { display: none; }
 .price details summary i { font-style: normal; color: var(--muted); font-size: .85em; margin-left: 8px; }
 .price details[open] summary i { color: var(--ink); }
-.price .ex { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; padding: 14px 0 6px; }
-.price .ex img { width: 100%; height: auto; }
+.price .ex { padding: 16px 0 8px; }
+.price .ex img { display: block; width: auto; max-width: 100%; max-height: 420px; height: auto; }
 
 /* Next project: лента миниатюр до стрелки */
 .next__row { display: flex; align-items: center; gap: 24px; }

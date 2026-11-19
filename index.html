@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Александр Гуськов — fashion-фотограф в Москве | SOGEEBED</title>
-<meta name="description" content="Александр Гуськов (SOGEEBED) — fashion-фотограф в Москве. Съёмки для брендов, кампании, beauty, портреты и предметная съёмка. Фото, продакшн и арт-дирекшн.">
+<title>Александр Гуськов — fashion-фотограф в Москве | Sogeebed</title>
+<meta name="description" content="Александр Гуськов (Sogeebed) — fashion-фотограф в Москве. Съёмки для брендов, кампании, beauty, портреты и предметная съёмка. Фото, продакшн и арт-дирекшн.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:site_name" content="SOGEEBED">
-<meta property="og:title" content="Александр Гуськов — fashion-фотограф в Москве | SOGEEBED">
-<meta property="og:description" content="Александр Гуськов (SOGEEBED) — fashion-фотограф в Москве. Съёмки для брендов, кампании, beauty, портреты и предметная съёмка. Фото, продакшн и арт-дирекшн.">
+<meta property="og:site_name" content="Sogeebed">
+<meta property="og:title" content="Александр Гуськов — fashion-фотограф в Москве | Sogeebed">
+<meta property="og:description" content="Александр Гуськов (Sogeebed) — fashion-фотограф в Москве. Съёмки для брендов, кампании, beauty, портреты и предметная съёмка. Фото, продакшн и арт-дирекшн.">
 <meta property="og:image" content="https://sogeebed.com/img/graphics/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -32,8 +32,8 @@
 </header>
 <div class="wrap first">
 <div class="hero">
-  <img class="hero__logo" src="img/graphics/logo-sogeebed.png" alt="SOGEEBED" width="784" height="530">
-  <img class="hero__photo" src="img/graphics/hero.webp" alt="Александр Гуськов (SOGEEBED)" width="1400" height="1050">
+  <img class="hero__logo" src="img/graphics/logo-sogeebed.png" alt="Sogeebed" width="784" height="530">
+  <img class="hero__photo" src="img/graphics/hero.webp" alt="Александр Гуськов (Sogeebed)" width="1400" height="1050">
   <div class="hero__title"><h1>Photography</h1><p>Александр Гуськов</p></div>
 </div>
 </div>
@@ -309,7 +309,7 @@
   <h2 class="brands__title wrap" id="brands-title">Brands</h2>
 </section>
 </main>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Александр Гуськов", "alternateName": "SOGEEBED", "jobTitle": "Fashion photographer", "address": {"@type": "PostalAddress", "addressLocality": "Москва", "addressCountry": "RU"}, "email": "sogeebed@gmail.com", "telephone": "+7 (965) 540-46-50", "sameAs": ["https://t.me/+79655404650", "https://t.me/sogeebedexh", "https://www.instagram.com/sogeebed/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Александр Гуськов", "alternateName": "Sogeebed", "jobTitle": "Fashion photographer", "address": {"@type": "PostalAddress", "addressLocality": "Москва", "addressCountry": "RU"}, "email": "sogeebed@gmail.com", "telephone": "+7 (965) 540-46-50", "sameAs": ["https://t.me/+79655404650", "https://t.me/sogeebedexh", "https://www.instagram.com/sogeebed/"]}</script>
 <script>
 (() => {
   const cards = [...document.querySelectorAll('.card')];
@@ -354,12 +354,18 @@
   btns.forEach(b => b.addEventListener('click', () => {
     const k = b.getAttribute('aria-pressed') === 'true' ? 'all' : b.dataset.filter;
     history.replaceState(null, '', k === 'all' ? location.pathname : '#' + k);
+    try { k === 'all' ? sessionStorage.removeItem('sg-filter') : sessionStorage.setItem('sg-filter', k); } catch (e) {}
     apply(k, true);
     const y = work.getBoundingClientRect().top + scrollY - head.offsetHeight;
     if (Math.abs(scrollY - y) > 4) window.scrollTo({top: y, behavior: 'smooth'});
   }));
   if (document.fonts) document.fonts.ready.then(() => layout(true));
-  apply(location.hash.slice(1), false);
+  let start = location.hash.slice(1);
+  if (!keys.includes(start)) { try { start = sessionStorage.getItem('sg-filter') || start; } catch (e) {} }
+  apply(start, false);
+  const nav0 = (performance.getEntriesByType('navigation')[0] || {}).type;
+  if (keys.includes(location.hash.slice(1)) && nav0 !== 'back_forward')
+    addEventListener('load', () => scrollTo(0, work.getBoundingClientRect().top + scrollY - head.offsetHeight));
 })();
 </script>
 <footer class="foot wrap" id="contacts">
@@ -372,7 +378,7 @@
       <li><a href="mailto:sogeebed@gmail.com">sogeebed@gmail.com</a></li>
     </ul>
   </div>
-  <a class="foot__price" href="terms.html" aria-label="Прайс и условия сотрудничества"><img src="img/graphics/price.png" alt="PRICE?" width="694" height="234" loading="lazy"></a>
+  <a class="foot__price" href="terms.html" aria-label="Прайс и условия сотрудничества"><img src="img/graphics/price.svg" alt="Price?" width="4803" height="4116" loading="lazy"></a>
   <p class="foot__copy"><span class="foot__note">*Деятельность компании Meta Platforms Inc., а также её продуктов Instagram и Facebook запрещена на территории Российской Федерации.</span>© 2026</p>
   <div class="foot__brand"><b>Sogeebed<br>Photography</b><span>Александр Гуськов</span></div>
 </footer>

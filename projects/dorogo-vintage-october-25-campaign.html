@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOROGO vintage October&#x27;25 Campaign — Александр Гуськов, фотограф</title>
-<meta name="description" content="DOROGO vintage October&#x27;25 Campaign, 2025. Photography + Prod + Art Direction. Съёмка Александра Гуськова (SOGEEBED), fashion-фотограф в Москве.">
+<meta name="description" content="DOROGO vintage October&#x27;25 Campaign, 2025. Photography + Prod + Art Direction. Съёмка Александра Гуськова (Sogeebed), fashion-фотограф в Москве.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:site_name" content="SOGEEBED">
+<meta property="og:site_name" content="Sogeebed">
 <meta property="og:title" content="DOROGO vintage October&#x27;25 Campaign — Александр Гуськов, фотограф">
-<meta property="og:description" content="DOROGO vintage October&#x27;25 Campaign, 2025. Photography + Prod + Art Direction. Съёмка Александра Гуськова (SOGEEBED), fashion-фотограф в Москве.">
+<meta property="og:description" content="DOROGO vintage October&#x27;25 Campaign, 2025. Photography + Prod + Art Direction. Съёмка Александра Гуськова (Sogeebed), fashion-фотограф в Москве.">
 <meta property="og:image" content="https://sogeebed.com/img/og/dorogo-vintage-october-25-campaign.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,6 +29,21 @@
   toTop(); addEventListener('DOMContentLoaded', toTop); addEventListener('load', toTop);
   addEventListener('pageshow', e => { if (e.persisted) toTop(); });
   // Next project: лента всегда едет; вниз — влево, вверх — вправо, при прокрутке ускоряется
+  // «назад»: крестик и свайп вправо возвращают туда, откуда пришли (с тем же фильтром и прокруткой)
+  const goBack = () => {
+    let fromSite = false;
+    try { fromSite = document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1; } catch (e) {}
+    if (fromSite) history.back(); else location.href = '../index.html' + (sessionStorage.getItem('sg-filter') ? '#' + sessionStorage.getItem('sg-filter') : '#work');
+  };
+  addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-back]').forEach(a => a.addEventListener('click', ev => { ev.preventDefault(); goBack(); }));
+    let sx = null, sy = 0, st = 0;
+    addEventListener('touchstart', ev => { if (!document.getElementById('lb').hidden) return; const t = ev.touches[0]; if (t.clientX < 24) return; sx = t.clientX; sy = t.clientY; st = Date.now(); }, {passive: true});
+    addEventListener('touchend', ev => {
+      if (sx === null) return; const t = ev.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+      if (dx > 90 && Math.abs(dy) < dx * .5 && Date.now() - st < 700) goBack();
+    }, {passive: true});
+  });
   addEventListener('DOMContentLoaded', () => {
   const track = document.querySelector('.next__track');
   if (!track) return;
@@ -59,7 +74,7 @@
       <p class="proj-meta">2025 · Photography + Prod + Art Direction<br><a href="../index.html#brands">Brands</a></p>
       
     </div>
-    <a class="close" href="../index.html" aria-label="Закрыть и вернуться ко всем проектам">✕ close</a>
+    <a class="close" href="../index.html#work" data-back aria-label="Закрыть и вернуться к проектам">✕ close</a>
   </div>
   <div class="gallery">
     <figure class="wide"><img src="../img/full/0288.webp" alt="DOROGO vintage October&#x27;25 Campaign — фото 1" width="1280" height="853" decoding="async"></figure>
