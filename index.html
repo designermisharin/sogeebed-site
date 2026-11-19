@@ -19,7 +19,7 @@
 <link rel="canonical" href="https://sogeebed.com/">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=bf12c9a5">
+<link rel="stylesheet" href="style.css?v=934f5674">
 </head>
 <body>
 <header class="site-head">
@@ -38,32 +38,9 @@
 </div>
 </div>
 <main>
-<section class="banner reveal" aria-label="Mask">
-  <a class="reveal__stage" href="projects/mask.html">
-    <img class="reveal__img" src="img/graphics/banner.jpg" alt="Mask — фото Александра Гуськова" width="1280" height="853" fetchpriority="high">
-    <span class="reveal__title">Mask</span>
-  </a>
-</section>
-<script>
-// обложка раскрывается из центра по мере прокрутки
-(() => {
-  const sec = document.currentScript.previousElementSibling, img = sec.querySelector('.reveal__img');
-  let tick = false;
-  const upd = () => {
-    tick = false;
-    const r = sec.getBoundingClientRect(), h = sec.offsetHeight - sec.querySelector('.reveal__stage').offsetHeight;
-    const top0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headh')) || 66;
-    // сначала блок прилипает и видно только название, потом обложка раскрывается
-    const p = Math.min(1, Math.max(0, ((top0 - r.top) / h - .15) / .7));
-    const e = 1 - Math.pow(1 - p, 2);
-    const iv = (1 - e) * 50, ih = (1 - e) * 50;
-    img.style.clipPath = `inset(${iv}% ${ih}% ${iv}% ${ih}%)`;
-    sec.style.setProperty('--p', e.toFixed(3));
-  };
-  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(upd); } }, {passive: true});
-  addEventListener('resize', upd); upd();
-})();
-</script>
+<a class="banner" href="projects/mask.html">
+  <img src="img/graphics/banner.jpg" alt="Mask — фото Александра Гуськова" width="1280" height="853" fetchpriority="high">
+</a>
 <h2 class="sr">Проекты</h2>
 <section class="work" id="work">
 <div class="filters-bar"><button type="button" class="filters__toggle wrap" aria-expanded="false" aria-controls="filters"><span class="filters__current">Filter</span> <span class="filters__hint">Filters <span class="filters__arrow" aria-hidden="true">↓</span></span></button><div class="wrap filters" id="filters" role="group" aria-label="Фильтр проектов"><button type="button" data-filter="brands" aria-pressed="false">Brands<span class="sep"> /</span></button><button type="button" data-filter="arts" aria-pressed="false">Arts<span class="sep"> /</span></button><button type="button" data-filter="artists" aria-pressed="false">Artists<span class="sep"> /</span></button><button type="button" data-filter="people" aria-pressed="false">People<span class="sep"> /</span></button><button type="button" data-filter="items" aria-pressed="false">Items<span class="sep"> /</span></button><button type="button" data-filter="beauty" aria-pressed="false">Beauty<span class="sep"> /</span></button><button type="button" data-filter="tests" aria-pressed="false">Model tests</button></div></div>
