@@ -69,6 +69,21 @@ document.querySelectorAll('.price details').forEach(d => {
     a.onfinish = () => { if (!opening) d.open = false; box.style.overflow = ''; delete d.dataset.busy; };
   });
 });
+// свайп вправо — назад
+(() => {
+  const goBack = () => {
+    let fromSite = false;
+    try { fromSite = document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1; } catch (e) {}
+    if (fromSite) return (window.sgLeave || (f => f()))(() => history.back());
+    (window.sgLeave || (f => f()))(() => { location.href = 'index.html'; });
+  };
+  let sx = null, sy = 0, st = 0;
+  addEventListener('touchstart', ev => { const t = ev.touches[0]; if (t.clientX < 24) return; sx = t.clientX; sy = t.clientY; st = Date.now(); }, {passive: true});
+  addEventListener('touchend', ev => {
+    if (sx === null) return; const t = ev.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy; sx = null;
+    if (dx > 90 && Math.abs(dy) < dx * .5 && Date.now() - st < 700) goBack();
+  }, {passive: true});
+})();
 </script>
 <footer class="foot wrap" id="contacts">
   <div>
