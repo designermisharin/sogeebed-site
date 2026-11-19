@@ -19,7 +19,7 @@
 <link rel="canonical" href="https://sogeebed.com/">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=d4d8d170">
+<link rel="stylesheet" href="style.css?v=bf12c9a5">
 </head>
 <body>
 <header class="site-head">
@@ -52,7 +52,9 @@
   const upd = () => {
     tick = false;
     const r = sec.getBoundingClientRect(), h = sec.offsetHeight - sec.querySelector('.reveal__stage').offsetHeight;
-    const p = Math.min(1, Math.max(0, (innerHeight * .5 - r.top) / (h + innerHeight * .5)));
+    const top0 = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headh')) || 66;
+    // сначала блок прилипает и видно только название, потом обложка раскрывается
+    const p = Math.min(1, Math.max(0, ((top0 - r.top) / h - .15) / .7));
     const e = 1 - Math.pow(1 - p, 2);
     const iv = (1 - e) * 50, ih = (1 - e) * 50;
     img.style.clipPath = `inset(${iv}% ${ih}% ${iv}% ${ih}%)`;

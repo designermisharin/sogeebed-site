@@ -379,3 +379,6 @@ img { display: block; max-width: 100%; height: auto; }
   .reveal__title { font-size: 22vw; }
 }
 @media (prefers-reduced-motion: reduce) { .reveal__img { clip-path: none !important; } }
+/* название под фото: сначала видно слово, потом обложка его перекрывает */
+.reveal__title { z-index: 1; color: var(--ink); mix-blend-mode: normal; }
+.reveal__img { z-index: 2; }
