@@ -345,3 +345,11 @@ img { display: block; max-width: 100%; height: auto; }
   .first .hero { flex: 1; }
   .hero__photo { margin-top: auto; }
 }
+
+/* первый экран занимает ровно окно: второй экран не заглядывает */
+.first { display: flex; flex-direction: column; justify-content: center; min-height: calc(100vh - var(--headh, 72px)); min-height: calc(100svh - var(--headh, 72px)); padding: 0 0 24px; box-sizing: border-box; }
+.first .hero { margin-top: 0; flex: none; width: 100%; }
+@media (max-width: 640px) {
+  .first { justify-content: flex-start; min-height: calc(100vh - var(--headh, 50px)); min-height: calc(100svh - var(--headh, 50px)); padding-bottom: 16px; }
+  .first .hero { flex: 1; }
+}
