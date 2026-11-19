@@ -358,3 +358,6 @@ img { display: block; max-width: 100%; height: auto; }
 /* активный фильтр — bold везде, включая мобильное меню */
 .filters-bar .filters button[aria-pressed="true"], .filters__current { font-weight: 700; }
 .filters-bar .filters button[aria-pressed="true"] .sep { font-weight: 400; }
+/* без щели между меню и прилипшими фильтрами */
+.filters-bar { top: calc(var(--headh, 66px) - 1px); }
+.filters-bar::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 24px; background: var(--bg); }
