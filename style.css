@@ -310,3 +310,31 @@ img { display: block; max-width: 100%; height: auto; }
   .next__track img { height: 48px; }
   .foot__price { width: 200px; }
 }
+
+/* BRANDS — над бегущей строкой */
+.brands__title { margin: 0 auto 40px; }
+
+/* Next project: длинные названия переносятся */
+.next__row b { flex: 0 1 auto; max-width: 60%; min-width: 0; overflow-wrap: anywhere; }
+.next__thumbs { flex: 1 1 0; min-width: 120px; }
+
+/* мобильный фильтр-выпадашка и Show more (на десктопе скрыты) */
+.filters__toggle, .show-more { display: none; }
+@media (max-width: 640px) {
+  .brands__title { margin: 0 auto 24px; }
+  .next__row b { flex: 1 1 0; max-width: none; }
+
+  .filters-bar { padding: 0; }
+  .filters__toggle { all: unset; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 16px; font: 400 16px/1.2 var(--arial); cursor: pointer; }
+  .filters__arrow { font-size: 16px; }
+  .filters-bar .filters { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; flex-wrap: nowrap; gap: 0; overflow: visible; padding: 0 16px 8px; width: 100%; box-sizing: border-box; background: var(--bg); border-bottom: 1px solid var(--ink); white-space: normal; }
+  .filters-bar.is-open .filters { display: flex; }
+  .filters-bar .filters button { padding: 10px 0; font: inherit; }
+  .filters-bar .filters .sep { display: none; }
+
+  .work { position: relative; }
+  .work.is-collapsed .grid { max-height: 160vh; max-height: 160svh; overflow: hidden; }
+  .work.is-collapsed .show-more { display: flex; position: relative; z-index: 2; margin-top: -40vh; height: 40vh; align-items: flex-end; justify-content: center; padding-bottom: 28px; box-sizing: border-box; }
+  .work.is-collapsed .show-more::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.85) 55%, #fff); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); -webkit-mask-image: linear-gradient(transparent, #000 45%); mask-image: linear-gradient(transparent, #000 45%); }
+  .show-more button { all: unset; position: relative; cursor: pointer; font: 400 16px/1.2 var(--arial); padding: 10px 0; border-bottom: 1px solid var(--ink); }
+}
