@@ -19,7 +19,7 @@
 <link rel="canonical" href="https://sogeebed.com/projects/sirena.html">
 <link rel="icon" href="../favicon.ico">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="stylesheet" href="../style.css?v=2ee1551b">
+<link rel="stylesheet" href="../style.css?v=dffb61c1">
 <script>document.documentElement.classList.add('js');if(window.CSSViewTransitionRule)document.documentElement.classList.add('vt');</script>
 </head>
 <body>
@@ -27,7 +27,9 @@
   // проект всегда открывается с самого верха, даже если браузер помнит прокрутку
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   const toTop = () => { document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0); document.documentElement.style.scrollBehavior = ''; };
-  toTop(); addEventListener('DOMContentLoaded', toTop); addEventListener('load', toTop);
+  let moved = false; ['touchstart', 'wheel', 'keydown'].forEach(t => addEventListener(t, () => moved = true, {once: true, passive: true}));
+  const toTopIf = () => { if (!moved) toTop(); };
+  toTop(); addEventListener('DOMContentLoaded', toTopIf); addEventListener('load', toTopIf);
   addEventListener('pageshow', e => { if (e.persisted) toTop(); });
   // Next project: лента всегда едет; вниз — влево, вверх — вправо, при прокрутке ускоряется
   // «назад»: крестик и свайп вправо возвращают туда, откуда пришли (с тем же фильтром и прокруткой)
@@ -184,7 +186,8 @@
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
     const sel = '.banner, .card, .gallery figure, .brands__title, .marquee, .foot > *, .next, .proj-head, .terms__sec, .terms h1, .terms__lead';
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target); } }), {rootMargin: '0px 0px -8% 0px'});
-    document.querySelectorAll(sel).forEach(el => { el.classList.add('rv'); io.observe(el); });
+    const vh = innerHeight;
+    document.querySelectorAll(sel).forEach(el => { const r = el.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) return; el.classList.add('rv'); io.observe(el); });
     setTimeout(() => document.querySelectorAll('.rv:not(.rv-in)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('rv-in'); }), 1500);
   }
 })();

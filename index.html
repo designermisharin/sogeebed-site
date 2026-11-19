@@ -19,7 +19,7 @@
 <link rel="canonical" href="https://sogeebed.com/">
 <link rel="icon" href="favicon.ico">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=2ee1551b">
+<link rel="stylesheet" href="style.css?v=dffb61c1">
 <script>document.documentElement.classList.add('js');if(window.CSSViewTransitionRule)document.documentElement.classList.add('vt');</script>
 </head>
 <body>
@@ -44,7 +44,7 @@
 </a>
 <h2 class="sr">Проекты</h2>
 <section class="work" id="work">
-<div class="filters-bar"><button type="button" class="filters__toggle wrap" aria-expanded="false" aria-controls="filters"><span class="filters__current">Filter</span> <span class="filters__hint">Filters <span class="filters__arrow" aria-hidden="true">↓</span></span></button><div class="wrap filters" id="filters" role="group" aria-label="Фильтр проектов"><button type="button" data-filter="brands" aria-pressed="false">Brands<span class="sep"> /</span></button><button type="button" data-filter="arts" aria-pressed="false">Arts<span class="sep"> /</span></button><button type="button" data-filter="artists" aria-pressed="false">Artists<span class="sep"> /</span></button><button type="button" data-filter="people" aria-pressed="false">People<span class="sep"> /</span></button><button type="button" data-filter="items" aria-pressed="false">Items<span class="sep"> /</span></button><button type="button" data-filter="beauty" aria-pressed="false">Beauty<span class="sep"> /</span></button><button type="button" data-filter="tests" aria-pressed="false">Model tests</button></div></div>
+<div class="filters-bar"><button type="button" class="filters__toggle wrap" aria-expanded="false" aria-controls="filters"><span class="filters__current">Filter</span> <span class="filters__hint">Filters <span class="filters__arrow" aria-hidden="true">↓</span></span></button><div class="wrap filters" id="filters" role="group" aria-label="Фильтр проектов"><button type="button" data-filter="brands" aria-pressed="false"><span class="fl" data-t="Brands">Brands</span><span class="sep"> /</span></button><button type="button" data-filter="arts" aria-pressed="false"><span class="fl" data-t="Arts">Arts</span><span class="sep"> /</span></button><button type="button" data-filter="artists" aria-pressed="false"><span class="fl" data-t="Artists">Artists</span><span class="sep"> /</span></button><button type="button" data-filter="people" aria-pressed="false"><span class="fl" data-t="People">People</span><span class="sep"> /</span></button><button type="button" data-filter="items" aria-pressed="false"><span class="fl" data-t="Items">Items</span><span class="sep"> /</span></button><button type="button" data-filter="beauty" aria-pressed="false"><span class="fl" data-t="Beauty">Beauty</span><span class="sep"> /</span></button><button type="button" data-filter="tests" aria-pressed="false"><span class="fl" data-t="Model tests">Model tests</span></button></div></div>
 <div class="grid wrap">
   <a class="card" href="projects/a-k-brand-april-26-campaign.html" data-cats="brands">
     <span class="card__img"><img src="img/thumb/0222.webp" alt="A.K. Brand — April&#x27;26 Campaign — фото Александра Гуськова" width="600" height="400" decoding="async"></span>
@@ -349,10 +349,15 @@
     const lim = innerHeight * 1.6;
     work.classList.toggle('is-collapsed', phone.matches && !expanded && grid.scrollHeight > lim + 200);
   };
-  work.querySelector('.show-more button').addEventListener('click', () => {
-    const from = grid.offsetHeight; expanded = true; collapse();
-    const to = grid.scrollHeight;
-    grid.animate([{height: from + 'px', overflow: 'hidden'}, {height: to + 'px', overflow: 'hidden'}], {duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)'});
+  const sm = work.querySelector('.show-more');
+  sm.querySelector('button').addEventListener('click', () => {
+    if (expanded) return;
+    const from = grid.offsetHeight, to = grid.scrollHeight, ease = 'cubic-bezier(.2,.7,.2,1)';
+    expanded = true;
+    grid.style.maxHeight = from + 'px';
+    const a = grid.animate([{maxHeight: from + 'px'}, {maxHeight: to + 'px'}], {duration: 800, easing: ease});
+    sm.animate([{opacity: 1}, {opacity: 0}], {duration: 450, easing: 'ease', fill: 'forwards'});
+    a.onfinish = () => { grid.style.maxHeight = ''; collapse(); sm.getAnimations().forEach(x => x.cancel()); };
   });
   function apply(key, animate) {
     if (!keys.includes(key)) key = 'brands';
@@ -380,13 +385,25 @@
     const y = work.getBoundingClientRect().top + scrollY - head.offsetHeight;
     if (Math.abs(scrollY - y) > 4) window.scrollTo({top: y, behavior: 'smooth'});
   }));
-  if (document.fonts) document.fonts.ready.then(() => layout(true));
+  if (document.fonts) document.fonts.ready.then(() => layout());
   let start = location.hash.slice(1);
   if (!keys.includes(start)) { try { start = sessionStorage.getItem('sg-filter') || start; } catch (e) {} }
   apply(start, false);
   const nav0 = (performance.getEntriesByType('navigation')[0] || {}).type;
-  if (keys.includes(location.hash.slice(1)) && nav0 !== 'back_forward')
-    addEventListener('load', () => scrollTo(0, work.getBoundingClientRect().top + scrollY - head.offsetHeight));
+  // позицию прокрутки восстанавливаем сами и сразу, иначе Safari сначала показывает верх, а потом прыгает вниз
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const saveY = () => { try { sessionStorage.setItem('sg-y', String(Math.round(scrollY))); } catch (e) {} };
+  addEventListener('pagehide', saveY); document.addEventListener('visibilitychange', () => { if (document.hidden) saveY(); });
+  let savedY = null; try { savedY = sessionStorage.getItem('sg-y'); } catch (e) {}
+  if ((nav0 === 'reload' || nav0 === 'back_forward') && savedY !== null) {
+    const y = +savedY, go = () => { if (Math.abs(scrollY - y) > 2) scrollTo({top: y, behavior: 'instant'}); };
+    go(); addEventListener('DOMContentLoaded', go);
+  } else if (keys.includes(location.hash.slice(1))) {
+    let moved = false; const stop = () => moved = true;
+    ['touchstart', 'wheel', 'keydown'].forEach(t => addEventListener(t, stop, {once: true, passive: true}));
+    const toWork = () => { if (!moved) scrollTo({top: work.getBoundingClientRect().top + scrollY - head.offsetHeight, behavior: 'instant'}); };
+    toWork(); addEventListener('DOMContentLoaded', toWork);
+  }
 })();
 </script>
 <footer class="foot wrap" id="contacts">
@@ -425,7 +442,8 @@
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
     const sel = '.banner, .card, .gallery figure, .brands__title, .marquee, .foot > *, .next, .proj-head, .terms__sec, .terms h1, .terms__lead';
     const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target); } }), {rootMargin: '0px 0px -8% 0px'});
-    document.querySelectorAll(sel).forEach(el => { el.classList.add('rv'); io.observe(el); });
+    const vh = innerHeight;
+    document.querySelectorAll(sel).forEach(el => { const r = el.getBoundingClientRect(); if (r.top < vh && r.bottom > 0) return; el.classList.add('rv'); io.observe(el); });
     setTimeout(() => document.querySelectorAll('.rv:not(.rv-in)').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) el.classList.add('rv-in'); }), 1500);
   }
 })();
